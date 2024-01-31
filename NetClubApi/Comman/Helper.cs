@@ -47,7 +47,7 @@ namespace NetClubApi.Comman
         public string generateToken(string email)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("apwmdlliendaddnetknz=3mlkd652341");
+            var key = Encoding.ASCII.GetBytes("APWMDLLIENDADDNETKNZ=3MLKDF1234567890");
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("email", email) }),

@@ -29,19 +29,19 @@ namespace NetClubApi.UserModule
         [AllowAnonymous]
         public async Task<User> Authentication(User user)
         {
-            user = _dataAccess.AuthenticateUser(user);
-            //if (user.IsSuccess)
-            //    user.Token = _helper.generateToken(user.email);
+            user = await _dataAccess.AuthenticateUser(user);
+            if (user.IsSuccess)
+                user.Token = _helper.generateToken(user.Email);
             return user;
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public  User Registration(User user)
+        public async  Task<User> Registration(User user)
         {
-            user =  _dataAccess.RegisterUser(user);
-            //if (user.IsSuccess)
-            //    user.Token = _helper.generateToken(user.email);
+            user =  await _dataAccess.RegisterUser(user);
+            if (user.IsSuccess)
+                user.Token = _helper.generateToken(user.Email);
             return user;
         }
         

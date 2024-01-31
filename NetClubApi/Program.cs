@@ -73,10 +73,9 @@ builder.Services.AddSignalR();
 // excuted for every  http request 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
 {
-    ValidateIssuer = true,
-    ValidateAudience = true,
-    ValidAudience = "user",
-    ValidIssuer = "user",
+    ValidateIssuer = false,
+    ValidateAudience = false,
+    
     ValidateLifetime = true,
     ValidateIssuerSigningKey = true,
     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("apwmdlliendaddnetknz=3mlkd652341")) // Use the same key as in generatetoken

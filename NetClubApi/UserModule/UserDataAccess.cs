@@ -11,8 +11,8 @@ namespace NetClubApi.UserModule
 
     public interface IUserDataAccess
     {
-        public User AuthenticateUser(User user);
-        public User RegisterUser(User user);
+        public Task<User> AuthenticateUser(User user);
+        public Task<User> RegisterUser(User user);
     }
     public class UserDataAccess : IUserDataAccess
     {
@@ -28,24 +28,24 @@ namespace NetClubApi.UserModule
         // this method recive the user object and check is the user is available in the data base or not
         // if the user is not in the data base => userNotfound
         //else return the token
-        public User AuthenticateUser(User user)
+        public async Task<User> AuthenticateUser(User user)
         {
 
             try
             {
 
 
-                var reader =  _netClubDbContext.user_detail.FirstOrDefault(users => users.email == user.email);
+                var reader =  _netClubDbContext.Users.FirstOrDefault(users => users.Email == user.Email);
 
                 if (reader != null)
                         {
                             
-                            user.password = _helper.EncodeBase64(user.password.ToString());
-                            if (reader.password.CompareTo(user.password) == 0)
+                            user.Password = _helper.EncodeBase64(user.Password.ToString());
+                            if (reader.Password.CompareTo(user.Password) == 0)
                             {
-                        user.first_name = reader.first_name;
-                        user.last_name = reader.last_name;
-                        user.user_name = reader.user_name;
+                        user.FirstName = reader.FirstName;
+                        user.LastName = reader.LastName;
+                        user.UserName = reader.UserName;
                         user.Message.Add("valid password");
                         user.IsSuccess = true;
                                
@@ -76,11 +76,11 @@ namespace NetClubApi.UserModule
 
         }
 
-        public  User RegisterUser(User user)
+        public  async Task<User> RegisterUser(User user)
         {
             try
             {
-                var reader =  _netClubDbContext.user_detail.SingleOrDefault(users => users.email == user.email);
+                var reader =  _netClubDbContext.Users.SingleOrDefault(users => users.Email == user.Email);
                 if (reader != null)
                 {
                     user.Message.Add("user already register");
@@ -88,10 +88,10 @@ namespace NetClubApi.UserModule
                 }
                 else
                 {
-                    user.password = _helper.EncodeBase64(user.password);
+                    user.Password = _helper.EncodeBase64(user.Password);
                     user.Message.Add("registered Successfully");
                     user.IsSuccess = true;
-                    _netClubDbContext.user_detail.Add(user);
+                    _netClubDbContext.Users.Add(user);
 
                      _netClubDbContext.SaveChanges();
                  

@@ -35,7 +35,7 @@ namespace NetClubApi.UserModule
             {
 
 
-                var reader =  _netClubDbContext.Users.FirstOrDefault(users => users.Email == user.Email);
+                var reader =  _netClubDbContext.User_detail.FirstOrDefault(users => users.Email == user.Email);
 
                 if (reader != null)
                         {
@@ -43,9 +43,9 @@ namespace NetClubApi.UserModule
                             user.Password = _helper.EncodeBase64(user.Password.ToString());
                             if (reader.Password.CompareTo(user.Password) == 0)
                             {
-                        user.FirstName = reader.FirstName;
-                        user.LastName = reader.LastName;
-                        user.UserName = reader.UserName;
+                        user.First_name = reader.First_name;
+                        user.Last_name = reader.Last_name;
+                        user.User_name = reader.User_name;
                         user.Message.Add("valid password");
                         user.IsSuccess = true;
                                
@@ -80,7 +80,7 @@ namespace NetClubApi.UserModule
         {
             try
             {
-                var reader =  _netClubDbContext.Users.SingleOrDefault(users => users.Email == user.Email);
+                var reader =  _netClubDbContext.User_detail.SingleOrDefault(users => users.Email == user.Email);
                 if (reader != null)
                 {
                     user.Message.Add("user already register");
@@ -91,7 +91,7 @@ namespace NetClubApi.UserModule
                     user.Password = _helper.EncodeBase64(user.Password);
                     user.Message.Add("registered Successfully");
                     user.IsSuccess = true;
-                    _netClubDbContext.Users.Add(user);
+                    _netClubDbContext.User_detail.Add(user);
 
                      _netClubDbContext.SaveChanges();
                  

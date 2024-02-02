@@ -47,3 +47,18 @@ namespace NetClubApi.UserModule
         
     }
 }
+/*
+{
+    "id": 0,
+  "userName": "Abishek",
+  "firstName": "Abishek",
+  "lastName": "A",
+  "password": "Abishek",
+  "email": "abishek@gmail.com",
+  "phoneNumber": "1234567890",
+  "isSuccess": true,
+  "message": [
+    "string"
+  ],
+  "token": "string"
+}*/

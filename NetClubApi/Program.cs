@@ -9,6 +9,7 @@ using System.Text;
 using NetClubApi.UserModule;
 using NetClubApi.Model;
 using NetClubApi.Comman;
+using NetClubApi.ClubModule;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddTransient<IUserDataAccess, UserDataAccess>();
     builder.Services.AddTransient<IHelper, Helper>();
+builder.Services.AddTransient<IClubBussinessLogics, ClubBussinessLogic>();
+builder.Services.AddTransient<IClubDataAccess,ClubDataAccess>();
 #endregion
 
 
@@ -85,6 +88,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 
 #endregion
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

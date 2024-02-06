@@ -11,8 +11,8 @@ namespace NetClubApi.UserModule
 
     public interface IUserDataAccess
     {
-        public Task<User> AuthenticateUser(User user);
-        public Task<User> RegisterUser(User user);
+        public Task<UserModel> AuthenticateUser(UserModel user);
+        public Task<UserModel> RegisterUser(UserModel user);
     }
     public class UserDataAccess : IUserDataAccess
     {
@@ -28,7 +28,7 @@ namespace NetClubApi.UserModule
         // this method recive the user object and check is the user is available in the data base or not
         // if the user is not in the data base => userNotfound
         //else return the token
-        public async Task<User> AuthenticateUser(User user)
+        public async Task<UserModel> AuthenticateUser(UserModel user)
         {
 
             try
@@ -76,7 +76,7 @@ namespace NetClubApi.UserModule
 
         }
 
-        public  async Task<User> RegisterUser(User user)
+        public  async Task<UserModel> RegisterUser(UserModel user)
         {
             try
             {

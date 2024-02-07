@@ -1,11 +1,12 @@
 ﻿using NetClubApi.Model;
+using Org.BouncyCastle.Utilities;
 
 namespace NetClubApi.ClubModule
 {
 
-    interface IClubBussinessLogics
+    public interface IClubBussinessLogics
     {
-        public Task<List<MyClub>> getMyClubs();
+        public Task<List<MyClub>> getMyClubs(int user_id);
     }
     public class ClubBussinessLogic : IClubBussinessLogics
     {
@@ -16,20 +17,25 @@ namespace NetClubApi.ClubModule
             _clubDataAccess = clubDataAccess;
         }
 
-        public async Task<List<MyClub>> getMyClubs()
+        public async Task<List<MyClub>> getMyClubs(int user_id)
         {
-            //var listOfClubs = new();
-            //var listOfMyclubs = 
-            //foreach (var club in clubs)
-            //{
-            //    Club clubDetails = await getClub(club.club_id);
-            //    MyClub myClub = new();
-            //    myClub.Name = clubDetails.club_name;
-            //    myClub.TotalLeagues = clubDetails.total_league;
-            //    myClub.ActiveLeagues = clubDetails.active_league;
-            //    myClub.Teams = clubDetails.teams;
+            List<MyClub> listOfClubs = new();
 
-            //}
+            // get the list of clubs created by us
+            var clubs = await  _clubDataAccess.getCreatedClub(user_id);
+
+            //gathering details for the list of clubs
+            foreach (var club in clubs)
+            {
+                Club clubdetails = await _clubDataAccess.getClubDetails( int.Parse(club.club_id));
+                MyClub myclub = new();
+                myclub.Name = clubdetails.club_name;
+                myclub.TotalLeagues = clubdetails.total_league;
+                myclub.ActiveLeagues = clubdetails.active_league;
+                myclub.Teams = clubdetails.teams;
+                listOfClubs.Add(myclub);
+            }
+            return listOfClubs;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NetClubApi.Model
 {
@@ -6,9 +7,11 @@ namespace NetClubApi.Model
     {
 
         [Key]
-        public int Id { get; set; }
-        public int user_id { get; set; }
-        public int club_id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string Id { get; set; }
+        [Required]
+        public string user_id { get; set; }
+        public string club_id { get; set; }
         public string registered_date { get; set; }
 
         public Boolean isadmin { get; set; }

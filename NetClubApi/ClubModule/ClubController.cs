@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetClubApi.Model;
+using System.Security.Claims;
 
 namespace NetClubApi.ClubModule
 {
@@ -11,10 +12,10 @@ namespace NetClubApi.ClubModule
     public class ClubController:ControllerBase
     {
 
-        private readonly ClubBussinessLogic  _clubBussinessLogics;
-        private readonly ClubDataAccess _clubDataAccess;
+        private readonly IClubBussinessLogics  _clubBussinessLogics;
+        private readonly IClubDataAccess _clubDataAccess;
 
-        public ClubController(ClubBussinessLogic clubBussinessLogic,ClubDataAccess clubDataAccess)
+        public ClubController(IClubBussinessLogics clubBussinessLogic,IClubDataAccess clubDataAccess)
         {
             _clubBussinessLogics = clubBussinessLogic;
             _clubDataAccess = clubDataAccess;
@@ -22,7 +23,7 @@ namespace NetClubApi.ClubModule
         // my club action
         [HttpGet]
         [Authorize]
-        public async Task<List<MyClub>> myClubs()
+        public async Task<List<MyClub>> MyClubs()
         {
             try
             {
@@ -33,7 +34,7 @@ namespace NetClubApi.ClubModule
                 //    throw new Exception("id not found in the user claims");
 
                 //var id = userClaims.Value ?? throw new Exception("id value is null in the user claims");
-                return  await _clubDataAccess.getMyClubs(id);
+                return  await _clubBussinessLogics.getMyClubs(int.Parse(id));
 
 
             }
@@ -44,8 +45,20 @@ namespace NetClubApi.ClubModule
 
 
         }
-        
 
+        [HttpPost]
+        [Authorize]
+        public async Task<string> CreateClub(Club club)
+        {
+            try
+            {
+                return await _clubDataAccess.CreateClub(club,User.FindFirst("id").Value);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
 
 
     }

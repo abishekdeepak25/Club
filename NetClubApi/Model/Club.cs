@@ -14,7 +14,7 @@ namespace NetClubApi.Model
         public string state { get; set; }
         public string zip { get; set; }
         public string created_by { get; set; }
-        public int club_label {get;set; }
+        public string club_label {get;set; }
 
         public int total_league { get; set; }
         public int active_league { get; set; }

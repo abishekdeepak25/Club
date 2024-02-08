@@ -52,7 +52,7 @@ namespace NetClubApi.ClubModule
         {
             try
             {
-                return await _clubDataAccess.CreateClub(club,User.FindFirst("id").Value);
+                return await _clubDataAccess.CreateClub(club,int.Parse(User.FindFirst("id").Value));
             }
             catch(Exception)
             {

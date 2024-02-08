@@ -27,14 +27,22 @@ namespace NetClubApi.ClubModule
             //gathering details for the list of clubs
             foreach (var club in clubs)
             {
-                Club clubdetails = await _clubDataAccess.getClubDetails( int.Parse(club.club_id));
-                MyClub myclub = new();
-                myclub.Name = clubdetails.club_name;
-                myclub.TotalLeagues = clubdetails.total_league;
-                myclub.ActiveLeagues = clubdetails.active_league;
-                myclub.Teams = clubdetails.teams;
-                listOfClubs.Add(myclub);
+                if (club != null)
+                {
+                    
+                    Club clubdetails = await _clubDataAccess.getClubDetails(club.club_id);
+                    if (clubdetails != null)
+                    {
+                        MyClub myclub = new();
+                        myclub.Name = clubdetails.club_name;
+                        myclub.TotalLeagues = clubdetails.total_league;
+                        myclub.ActiveLeagues = clubdetails.active_league;
+                        myclub.Teams = clubdetails.teams;
+                        listOfClubs.Add(myclub);
+                    }
+                }
             }
+
             return listOfClubs;
         }
     }

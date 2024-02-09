@@ -12,6 +12,8 @@ namespace NetClubApi.ClubModule
     public class ClubController:ControllerBase
     {
 
+        
+        
         private readonly IClubBussinessLogics  _clubBussinessLogics;
         private readonly IClubDataAccess _clubDataAccess;
 
@@ -19,6 +21,7 @@ namespace NetClubApi.ClubModule
         {
             _clubBussinessLogics = clubBussinessLogic;
             _clubDataAccess = clubDataAccess;
+            
         }
         // my club action
         [HttpGet]
@@ -53,6 +56,35 @@ namespace NetClubApi.ClubModule
             try
             {
                 return await _clubDataAccess.CreateClub(club,int.Parse(User.FindFirst("id").Value));
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<List<MyClub>> RegisteredClubs()
+        {
+                try
+            {
+                var userClaims = User.FindFirst("id");
+                return await _clubBussinessLogics.RegisteredClubs(int.Parse(userClaims.Value));
+            }catch(Exception )
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<String> ClubRegistration(string code)
+        {
+            try
+            {
+                var claim = User.FindFirst("id");
+                return await _clubDataAccess.ClubRegistration(code,int.Parse(claim.Value));
             }
             catch(Exception)
             {

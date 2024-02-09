@@ -20,7 +20,7 @@ namespace NetClubApi.Model
         public int active_league { get; set; }
 
         public int teams { get; set; }
-
+        public DateTime registered_date { get; set; }
 
 
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NetClubApi.Model;
+using System.Data.SqlTypes;
 
 namespace NetClubApi.ClubModule
 {
@@ -9,6 +10,8 @@ namespace NetClubApi.ClubModule
         public Task<List<ClubRegistration>> getCreatedClub(int id);
         public Task<Club> getClubDetails(int club_id);
         public Task<string> CreateClub(Club club,int id);
+        public Task<List<ClubRegistration>> getRegisteredClub(int id);
+        public Task<string> ClubRegistration(string code,int user_id);
     }
 
     public class ClubDataAccess : IClubDataAccess
@@ -69,6 +72,8 @@ namespace NetClubApi.ClubModule
 
             try
             {
+                club.registered_date = DateTime.Now;
+             
                 var registerclub  = await _netClubDbContext.club.AddAsync
 (club);
                 await _netClubDbContext.SaveChangesAsync();
@@ -76,7 +81,7 @@ namespace NetClubApi.ClubModule
 
                 clubRegistration.user_id = userId;
                 clubRegistration.club_id = registerclub.Entity.Id;
-                clubRegistration.registered_date = DateTime.Now;
+                
                 clubRegistration.isadmin = true;
                 await _netClubDbContext.AddAsync(clubRegistration);
                 await _netClubDbContext.SaveChangesAsync();
@@ -91,6 +96,61 @@ namespace NetClubApi.ClubModule
             }
 
 
+        }
+        public async Task<List<ClubRegistration>> getRegisteredClub(int id)
+        {
+            List<ClubRegistration> clubs = new();
+            try
+            {
+
+                //get the list of clubs created by the user using user id and role
+                clubs = await _netClubDbContext.club_registration.Where(clubs => clubs.user_id == id &&  !clubs.isadmin).ToListAsync();
+
+
+                return clubs;
+
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+
+        }
+
+        public async Task<string> ClubRegistration(string code,int user_id)
+        {
+            // get the club id using the code
+            var club = await _netClubDbContext.club.FirstOrDefaultAsync(club => club.club_label == code);
+
+            if (club == default)
+                return "club not found";
+            var club_id = club.Id;
+            if ( await IsAlreadyRegister(club_id,user_id))
+                return "already register in this club";
+
+
+            ClubRegistration clubRegistration = new();
+            clubRegistration.user_id = user_id;
+            clubRegistration.club_id = club_id;
+            
+            clubRegistration.isadmin = false;
+            clubRegistration.league_played = 0;
+            
+            clubRegistration.join_date = DateTime.Now;
+            await _netClubDbContext.club_registration.AddAsync(clubRegistration);
+            await _netClubDbContext.SaveChangesAsync();
+            return "you registered to the club";
+        }
+
+        private async Task<bool> IsAlreadyRegister(int club_id, int user_id)
+        {
+           var club = await _netClubDbContext.club_registration.FirstOrDefaultAsync(club => club.Id == club_id && club.user_id == user_id);
+            if (club == default)
+                return false;
+            return true;
         }
     }
 }

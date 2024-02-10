@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetClubApi.Model;
+using NetClubApi.Model.ResponseModel;
 using System.Security.Claims;
 
 namespace NetClubApi.ClubModule
 {
 
-    
+
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class ClubController:ControllerBase
@@ -26,18 +27,34 @@ namespace NetClubApi.ClubModule
         // my club action
         [HttpGet]
         [Authorize]
-        public async Task<List<MyClub>> MyClubs()
+        //get the list of club created by user
+        public async Task<IActionResult> MyClubs()
         {
             try
             {
 
                 var userClaims = User.FindFirst("id");
                 var  id = userClaims.Value;
-                //if (userClaims == null || userClaims.Value == null)
-                //    throw new Exception("id not found in the user claims");
-
-                //var id = userClaims.Value ?? throw new Exception("id value is null in the user claims");
-                return  await _clubBussinessLogics.getMyClubs(int.Parse(id));
+                
+                List<IClubResponse> clubs = await _clubBussinessLogics.getMyClubs(int.Parse(id));
+                if (clubs.Any() && clubs[0] is MyClub)
+                {
+                    // If the first object is of type MyClub, return a list of MyClub objects
+                    var myClub = clubs.Cast<MyClub>().ToList();
+                    return Ok(myClub);
+                }
+                else if (clubs.Any() && clubs[0] is RegisterClub)
+                {
+                    // If the first object is of type RegisterClub, return a list of RegisterClub objects
+                    var registerClub = clubs.Cast<RegisterClub>().ToList();
+                    return Ok(registerClub);
+                }
+                else
+                {
+                    // If the list is empty or doesn't contain objects of expected types, return an empty response or appropriate status code
+                    return NoContent();
+                }
+                
 
 
             }
@@ -51,11 +68,12 @@ namespace NetClubApi.ClubModule
 
         [HttpPost]
         [Authorize]
-        public async Task<string> CreateClub(Club club)
+        //create club
+        public async Task<IActionResult> CreateClub(Club club)
         {
             try
             {
-                return await _clubDataAccess.CreateClub(club,int.Parse(User.FindFirst("id").Value));
+                return Ok(await _clubDataAccess.CreateClub(club,int.Parse(User.FindFirst("id").Value)));
             }
             catch(Exception)
             {
@@ -65,12 +83,13 @@ namespace NetClubApi.ClubModule
 
         [HttpGet]
         [Authorize]
-        public async Task<List<MyClub>> RegisteredClubs()
+        //get the list of club rigistered 
+        public async Task<IActionResult> RegisteredClubs()
         {
                 try
             {
                 var userClaims = User.FindFirst("id");
-                return await _clubBussinessLogics.RegisteredClubs(int.Parse(userClaims.Value));
+                return Ok(await _clubBussinessLogics.RegisteredClubs(int.Parse(userClaims.Value)));
             }catch(Exception )
             {
                 throw;
@@ -79,12 +98,13 @@ namespace NetClubApi.ClubModule
 
         [HttpPost]
         [Authorize]
-        public async Task<String> ClubRegistration(string code)
+        //add to club action
+        public async Task<IActionResult> JoinClub(string code)
         {
             try
             {
                 var claim = User.FindFirst("id");
-                return await _clubDataAccess.ClubRegistration(code,int.Parse(claim.Value));
+                return Ok(await _clubDataAccess.ClubRegistration(code, int.Parse(claim.Value)));
             }
             catch(Exception)
             {

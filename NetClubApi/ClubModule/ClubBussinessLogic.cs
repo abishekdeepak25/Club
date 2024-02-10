@@ -1,4 +1,5 @@
 ﻿using NetClubApi.Model;
+using NetClubApi.Model.ResponseModel;
 using Org.BouncyCastle.Utilities;
 
 namespace NetClubApi.ClubModule
@@ -6,9 +7,9 @@ namespace NetClubApi.ClubModule
 
     public interface IClubBussinessLogics
     {
-        public Task<List<MyClub>> getMyClubs(int user_id);
-        public Task<List<MyClub>> RegisteredClubs(int user_id);
-        public  Task<List<MyClub>> getClubDetails(List<ClubRegistration> clubs);
+        public Task<List<IClubResponse>> getMyClubs(int user_id);
+        public Task<List<IClubResponse>> RegisteredClubs(int user_id);
+        public  Task<List<IClubResponse>> getClubDetails(List<ClubRegistration> clubs);
     }
     public class ClubBussinessLogic : IClubBussinessLogics
     {
@@ -19,7 +20,7 @@ namespace NetClubApi.ClubModule
             _clubDataAccess = clubDataAccess;
         }
 
-        public async Task<List<MyClub>> getMyClubs(int user_id)
+        public async Task<List<IClubResponse>> getMyClubs(int user_id)
         {
 
             try
@@ -40,29 +41,64 @@ namespace NetClubApi.ClubModule
 
 
         //gathering details for the list of clubs
-        public async Task<List<MyClub>> getClubDetails(List<ClubRegistration> clubs)
+        public async Task<List<IClubResponse>> getClubDetails(List<ClubRegistration> clubs)
         {
-            List<MyClub> listOfClubs = new();
-            foreach (var club in clubs)
+            try
             {
-                if (club != null)
+                List<IClubResponse> listOfClubs = new();
+
+                //if admin call the method
+                if (clubs[0].isadmin)
                 {
 
-                    Club clubdetails = await _clubDataAccess.getClubDetails(club.club_id);
-                    if (clubdetails != null)
+                    foreach (var club in clubs)
                     {
-                        MyClub myclub = new();
-                        myclub.Name = clubdetails.club_name;
-                        myclub.TotalLeagues = clubdetails.total_league;
-                        myclub.ActiveLeagues = clubdetails.active_league;
-                        myclub.Teams = clubdetails.teams;
-                        listOfClubs.Add(myclub);
+
+
+                        Club clubdetails = await _clubDataAccess.getClubDetails(club.club_id);
+                        if (clubdetails != null)
+                        {
+                            MyClub myclub = new();
+                            myclub.Name = clubdetails.club_name;
+                            myclub.TotalLeagues = clubdetails.total_league;
+                            myclub.ActiveLeagues = clubdetails.active_league;
+                            myclub.Teams = clubdetails.teams;
+                            listOfClubs.Add(myclub);
+                        }
                     }
                 }
+                //register user call the method
+                else
+                {
+                    foreach (var club in clubs)
+                    {
+
+
+                        Club clubdetails = await _clubDataAccess.getClubDetails(club.club_id);
+                        
+                        if (clubdetails != null)
+                        {
+                            RegisterClub registerClub = new();
+                            registerClub.Name = clubdetails.club_name;
+                            registerClub.JoinDate = club.join_date;
+                            registerClub.LeaguesPlayed = club.league_played;
+                            registerClub.CreatedBy= clubdetails.created_by;
+                            listOfClubs.Add(registerClub);
+                        }
+                    }
+                }
+                return listOfClubs;
             }
-            return listOfClubs;
+            catch(Exception )
+            {
+                throw;
+            }
+            
+            
         }
-        public async Task<List<MyClub>> RegisteredClubs(int user_id)
+        
+        
+        public async Task<List<IClubResponse>> RegisteredClubs(int user_id)
         {
             try
             {

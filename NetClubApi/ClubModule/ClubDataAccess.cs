@@ -9,6 +9,7 @@ namespace NetClubApi.ClubModule
     {
         public Task<List<ClubRegistration>> getCreatedClub(int id);
         public Task<Club> getClubDetails(int club_id);
+        
         public Task<string> CreateClub(Club club,int id);
         public Task<List<ClubRegistration>> getRegisteredClub(int id);
         public Task<string> ClubRegistration(string code,int user_id);
@@ -40,7 +41,7 @@ namespace NetClubApi.ClubModule
 
 
             }
-            catch (Exception)
+            catch   (Exception)
             {
                 throw;
             }
@@ -97,13 +98,15 @@ namespace NetClubApi.ClubModule
 
 
         }
+
+        
         public async Task<List<ClubRegistration>> getRegisteredClub(int id)
         {
             List<ClubRegistration> clubs = new();
             try
             {
 
-                //get the list of clubs created by the user using user id and role
+                
                 clubs = await _netClubDbContext.club_registration.Where(clubs => clubs.user_id == id &&  !clubs.isadmin).ToListAsync();
 
 

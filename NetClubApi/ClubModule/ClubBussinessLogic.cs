@@ -43,10 +43,14 @@ namespace NetClubApi.ClubModule
         //gathering details for the list of clubs
         public async Task<List<IClubResponse>> getClubDetails(List<ClubRegistration> clubs)
         {
+
+            
             try
             {
                 List<IClubResponse> listOfClubs = new();
-
+              var value =   clubs.Count();
+                if (value == 0)
+                    return listOfClubs;
                 //if admin call the method
                 if (clubs[0].isadmin)
                 {

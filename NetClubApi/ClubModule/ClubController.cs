@@ -43,16 +43,11 @@ namespace NetClubApi.ClubModule
                     var myClub = clubs.Cast<MyClub>().ToList();
                     return Ok(myClub);
                 }
-                else if (clubs.Any() && clubs[0] is RegisterClub)
-                {
-                    // If the first object is of type RegisterClub, return a list of RegisterClub objects
-                    var registerClub = clubs.Cast<RegisterClub>().ToList();
-                    return Ok(registerClub);
-                }
+                
                 else
                 {
                     // If the list is empty or doesn't contain objects of expected types, return an empty response or appropriate status code
-                    return NoContent();
+                    return Ok("you have no clubs! create it ");
                 }
                 
 
@@ -89,7 +84,16 @@ namespace NetClubApi.ClubModule
                 try
             {
                 var userClaims = User.FindFirst("id");
-                return Ok(await _clubBussinessLogics.RegisteredClubs(int.Parse(userClaims.Value)));
+                var registerClub = await _clubBussinessLogics.RegisteredClubs(int.Parse(userClaims.Value));
+                if(registerClub.Any() && registerClub[0] is RegisterClub)
+                {
+                    return Ok(registerClub.Cast<RegisterClub>().ToList());
+                }
+                else
+                {
+                    return Ok("you not register to any club");
+
+                }
             }catch(Exception )
             {
                 throw;

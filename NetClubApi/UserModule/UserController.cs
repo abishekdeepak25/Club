@@ -30,6 +30,7 @@ namespace NetClubApi.UserModule
         public async Task<UserModel> Authentication(UserModel user)
         {
             user = await _dataAccess.AuthenticateUser(user);
+
             if (user.IsSuccess)
                 user.Token = _helper.generateToken(user);
             return user;

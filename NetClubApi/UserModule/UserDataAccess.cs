@@ -43,6 +43,9 @@ namespace NetClubApi.UserModule
                             user.Password = _helper.EncodeBase64(user.Password.ToString());
                             if (reader.Password.CompareTo(user.Password) == 0)
                             {
+                         Console.WriteLine(reader.First_name);
+                        Console.WriteLine(reader.Id);
+                        user.Id = reader.Id;
                         user.First_name = reader.First_name;
                         user.Last_name = reader.Last_name;
                         user.User_name = reader.User_name;

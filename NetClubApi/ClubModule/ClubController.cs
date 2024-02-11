@@ -104,6 +104,7 @@ namespace NetClubApi.ClubModule
             try
             {
                 var claim = User.FindFirst("id");
+                Console.WriteLine(claim.Value);
                 return Ok(await _clubDataAccess.ClubRegistration(code, int.Parse(claim.Value)));
             }
             catch(Exception)

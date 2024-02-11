@@ -67,14 +67,15 @@ namespace NetClubApi.ClubModule
             }
         }
 
-
         public async Task<string> CreateClub(Club club,int userId)
         {
 
             try
             {
                 club.registered_date = DateTime.Now;
-             
+                club.club_label = await GenerateUniqueLabel();
+
+
                 var registerclub  = await _netClubDbContext.club.AddAsync
 (club);
                 await _netClubDbContext.SaveChangesAsync();
@@ -154,6 +155,36 @@ namespace NetClubApi.ClubModule
             if (club == default)
                 return false;
             return true;
+        }
+
+        private async Task<string> GenerateUniqueLabel()
+        {
+            string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+            int labelLength = 6;
+            Random random = new Random();
+            string randomString;
+            do
+            {
+                randomString = new string(Enumerable.Range(0, labelLength)
+                    .Select(_ => characters[random.Next(characters.Length)])
+                    .ToArray());
+            } while (await IsStringExistsInDatabase(randomString));
+
+            return randomString;
+        }
+
+        private async Task<bool> IsStringExistsInDatabase(string randomString)
+        {   
+            var club = await _netClubDbContext.club.FirstOrDefaultAsync(club => club.club_label==randomString);
+            if (club != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

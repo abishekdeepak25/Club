@@ -12,7 +12,7 @@ namespace NetClubApi.ClubModule
         
         public Task<string> CreateClub(Club club,int id);
         public Task<List<ClubRegistration>> getRegisteredClub(int id);
-        public Task<string> ClubRegistration(string code,int user_id);
+        public Task<string> ClubRegistration(Club code,int user_id);
     }
 
     public class ClubDataAccess : IClubDataAccess
@@ -124,29 +124,30 @@ namespace NetClubApi.ClubModule
 
         }
 
-        public async Task<string> ClubRegistration(string code,int user_id)
+        public async Task<string> ClubRegistration(Club code,int user_id)
         {
             // get the club id using the code
-            var club = await _netClubDbContext.club.FirstOrDefaultAsync(club => club.club_label == code);
+            var club = await _netClubDbContext.club.FirstOrDefaultAsync(club => club.club_label == code.club_label);
 
             if (club == default)
                 return "club not found";
             var club_id = club.Id;
             if ( await IsAlreadyRegister(club_id,user_id))
                 return "already register in this club";
+            else
+            {
+                ClubRegistration clubRegistration = new();
+                clubRegistration.user_id = user_id;
+                clubRegistration.club_id = club_id;
 
+                clubRegistration.isadmin = false;
+                clubRegistration.league_played = 0;
 
-            ClubRegistration clubRegistration = new();
-            clubRegistration.user_id = user_id;
-            clubRegistration.club_id = club_id;
-            
-            clubRegistration.isadmin = false;
-            clubRegistration.league_played = 0;
-            
-            clubRegistration.join_date = DateTime.Now;
-            await _netClubDbContext.club_registration.AddAsync(clubRegistration);
-            await _netClubDbContext.SaveChangesAsync();
-            return "you registered to the club";
+                clubRegistration.join_date = DateTime.Now;
+                await _netClubDbContext.club_registration.AddAsync(clubRegistration);
+                await _netClubDbContext.SaveChangesAsync();
+                return "you registered to the club";
+            }
         }
 
         private async Task<bool> IsAlreadyRegister(int club_id, int user_id)

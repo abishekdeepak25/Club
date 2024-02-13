@@ -72,7 +72,7 @@ namespace NetClubApi.ClubModule
 
             try
             {
-                club.registered_date = DateTime.Now;
+                club.created_date = DateTime.Now;
                 club.club_label = await GenerateUniqueLabel();
 
 
@@ -141,7 +141,7 @@ namespace NetClubApi.ClubModule
                 clubRegistration.club_id = club_id;
 
                 clubRegistration.isadmin = false;
-                clubRegistration.league_played = 0;
+                //clubRegistration.league_played = 0;
 
                 clubRegistration.join_date = DateTime.Now;
                 await _netClubDbContext.club_registration.AddAsync(clubRegistration);

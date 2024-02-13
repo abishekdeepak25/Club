@@ -64,9 +64,13 @@ namespace NetClubApi.ClubModule
                         {
                             MyClub myclub = new();
                             myclub.Name = clubdetails.club_name;
-                            myclub.TotalLeagues = clubdetails.total_league;
-                            myclub.ActiveLeagues = clubdetails.active_league;
-                            myclub.Teams = clubdetails.teams;
+                            // myclub.TotalLeagues = clubdetails.total_league;
+                            //myclub.ActiveLeagues = clubdetails.active_league;
+                            //myclub.Teams = clubdetails.teams;
+                            myclub.TotalLeagues = 0;
+                            myclub.ActiveLeagues =0;
+                            myclub.Teams = 0;
+
                             listOfClubs.Add(myclub);
                         }
                     }
@@ -85,7 +89,7 @@ namespace NetClubApi.ClubModule
                             RegisterClub registerClub = new();
                             registerClub.Name = clubdetails.club_name;
                             registerClub.JoinDate = club.join_date;
-                            registerClub.LeaguesPlayed = club.league_played;
+                            //registerClub.LeaguesPlayed = club.league_played;
                             registerClub.CreatedBy= clubdetails.created_by;
                             listOfClubs.Add(registerClub);
                         }

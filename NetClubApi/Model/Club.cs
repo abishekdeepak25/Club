@@ -16,11 +16,11 @@ namespace NetClubApi.Model
         public string created_by { get; set; }
         public string club_label {get;set; }
 
-        public int total_league { get; set; }
-        public int active_league { get; set; }
+        //public int total_league { get; set; }
+        //public int active_league { get; set; }
 
-        public int teams { get; set; }
-        public DateTime registered_date { get; set; }
+        //public int teams { get; set; }
+        public DateTime created_date { get; set; }
 
 
     }

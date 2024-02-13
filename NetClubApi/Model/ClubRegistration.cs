@@ -13,7 +13,7 @@ namespace NetClubApi.Model
         public int user_id { get; set; }
         public int club_id { get; set; }
         
-        public int league_played { get; set; }
+        //public int league_played { get; set; }
         public DateTime join_date { get; set; }
         public Boolean isadmin { get; set; }
 

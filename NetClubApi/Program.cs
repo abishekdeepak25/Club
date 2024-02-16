@@ -10,9 +10,11 @@ using NetClubApi.UserModule;
 using NetClubApi.Model;
 using NetClubApi.Comman;
 using NetClubApi.ClubModule;
+using NetClubApi.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
+sqlHelper.conStr = ConfigurationExtensions.GetConnectionString(builder.Configuration, "DefaultConnection");
 #region dependency injection
 
     builder.Services.AddTransient<IUserDataAccess, UserDataAccess>();

@@ -64,6 +64,7 @@ namespace NetClubApi.ClubModule
                         {
                             MyClub myclub = new();
                             myclub.Name = clubdetails.club_name;
+                            myclub.Id = clubdetails.Id;
                             // myclub.TotalLeagues = clubdetails.total_league;
                             //myclub.ActiveLeagues = clubdetails.active_league;
                             //myclub.Teams = clubdetails.teams;

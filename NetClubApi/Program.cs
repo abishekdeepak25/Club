@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-
 using NetClubApi.UserModule;
 using NetClubApi.Model;
 using NetClubApi.Comman;
 using NetClubApi.ClubModule;
 using NetClubApi.Helper;
+using NetClubApi.LeagueModule;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +21,8 @@ sqlHelper.conStr = ConfigurationExtensions.GetConnectionString(builder.Configura
     builder.Services.AddTransient<IHelper, Helper>();
 builder.Services.AddTransient<IClubBussinessLogics, ClubBussinessLogic>();
 builder.Services.AddTransient<IClubDataAccess,ClubDataAccess>();
+builder.Services.AddTransient<ILeagueBussinessLayer, LeagueBussinessLayer>();
+builder.Services.AddTransient<ILeagueDataAccess, LeagueDataAccess>();
 #endregion
 
 

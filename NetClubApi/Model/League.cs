@@ -6,18 +6,18 @@ namespace NetClubApi.Model
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public int? ClubId { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public int? LeagueTypeId { get; set; }
-        public int? ScheduleTypeId { get; set; }
-        public int? NumberOfTeams { get; set; }
-        public int? NumberOfTeamsPlayoffs { get; set; }
-        public DateTime? PlayoffStartDate { get; set; }
-        public DateTime? PlayoffEndDate { get; set; }
-        public int? PlayoffTypeId { get; set; }
-        public DateTime? RegistrationStartDate { get; set; }
-        public DateTime? RegistrationEndDate { get; set; }
+        public string name { get; set; }
+        public int? club_id { get; set; }
+        public DateTime? start_date { get; set; }
+        public DateTime? end_date { get; set; }
+        public int? league_type_id { get; set; }
+        public int? schedule_type_id { get; set; }
+        public int? number_of_teams { get; set; }
+        public int? number_of_teams_playoffs { get; set; }
+        public DateTime? playoff_start_date { get; set; }
+        public DateTime? playoff_end_date { get; set; }
+        public int? playoff_type_id { get; set; }
+        public DateTime? registration_start_date { get; set; }
+        public DateTime? registration_end_date { get; set; }
     }
 }

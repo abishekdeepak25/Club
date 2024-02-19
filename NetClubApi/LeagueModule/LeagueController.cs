@@ -10,18 +10,22 @@ namespace NetClubApi.LeagueModule
     [ApiController]
     public class LeagueController : ControllerBase
     {
-        private readonly LeagueDataAccess _leagueDataAccess;
-        private readonly LeagueBussinessLayer _leagueBussinessLayer;
-        public LeagueController(LeagueDataAccess leagueDataAccess,LeagueBussinessLayer leagueBussinessLayer)
+        private readonly ILeagueDataAccess _leagueDataAccess;
+        private readonly ILeagueBussinessLayer _leagueBussinessLayer;
+        public LeagueController(ILeagueDataAccess leagueDataAccess,ILeagueBussinessLayer leagueBussinessLayer)
         {
             _leagueDataAccess = leagueDataAccess;
             _leagueBussinessLayer = leagueBussinessLayer;
         }
         [HttpPost]
         [Authorize]
+
+       //only admin can create the createLeague
         public async Task<string> CreateLeague(League league)
+
         {
-            return await _leagueDataAccess.CreateLeague(league);
+            int user_id = int.Parse(User.FindFirst("id").Value);
+            return await _leagueDataAccess.CreateLeague(league,user_id);
             
         }
 
@@ -31,7 +35,17 @@ namespace NetClubApi.LeagueModule
         {
             return await _leagueBussinessLayer.GetClubLeagues(club_Id);
         }
-        
+
+        [HttpGet]
+        [Authorize]
+        public async Task<int?> GetLeagueMatches(int league_id)
+        {
+            return await _leagueBussinessLayer.GetLeagueMatches(league_id);
+        }
+        public async Task<string> RegisterLeague(int league_id)
+        {
+
+        }
 
     }
 }

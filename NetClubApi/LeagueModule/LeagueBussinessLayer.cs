@@ -8,6 +8,8 @@ namespace NetClubApi.LeagueModule
         public Task<List<LeagueResponse>> GetClubLeagues(int club_id);
         public Task<int?> GetLeagueMatches(int league_id);
         public  Task<List<LeagueResponse>> ConvertToLeagueResponse(List<League> leagues);
+        public Task<string> RegisterLeague(LeagueRegistration league);
+        public Task<List<MyLeagues>> GetMyLeagues(int user_id);
     }
 
     
@@ -51,6 +53,48 @@ namespace NetClubApi.LeagueModule
 
         }
 
-       
+        public async Task<string> RegisterLeague(LeagueRegistration league)
+        {
+            try
+            {
+                
+                return await _dataAccess.RegisterLeague(league);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<List<MyLeagues>> GetMyLeagues(int user_id)
+        {
+            List<LeagueRegistration> registeredLeagues = await _dataAccess.GetMyLeagues(user_id);
+            List<MyLeagues> myLeagues = new();
+            foreach(LeagueRegistration league in registeredLeagues)
+            {
+                MyLeagues myLeague = new();
+                myLeague.LeagueName = GetLeagueName(await _dataAccess.GetLeague(league.league_id));
+                myLeague.ClubName = GetClubName(await _dataAccess.GetClub(league.club_id));
+                myLeague.Win = 0;
+                myLeague.Points = 0;
+                myLeague.Rank = 12;
+                myLeague.Loss = 6;
+                myLeague.Rating = 0;
+                myLeague.WinPercentage = 20;
+                myLeagues.Add(myLeague);
+
+            }
+            return myLeagues;
+        }
+
+        private string GetClubName(Club club)
+        {
+            return club.club_name;
+        }
+
+        private string GetLeagueName(League league)
+        {
+            return league.name;
+        }
     }
 }

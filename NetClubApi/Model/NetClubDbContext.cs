@@ -16,7 +16,7 @@ namespace NetClubApi.Model
         public DbSet<Club> club { get; set; }
         public DbSet<ClubRegistration> club_registration { get; set; }
         public DbSet<League> league { get; set; }
-        
+        public DbSet<LeagueRegistration> league_registration { get; set; }
 
     }
 }

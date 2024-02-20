@@ -42,8 +42,21 @@ namespace NetClubApi.LeagueModule
         {
             return await _leagueBussinessLayer.GetLeagueMatches(league_id);
         }
-        public async Task<string> RegisterLeague(int league_id)
+
+        [HttpPost]
+        [Authorize]
+        public async Task<string> RegisterLeague(LeagueRegistration league)
         {
+            league.user_id = int.Parse(User.FindFirst("id").Value);
+
+            return await _leagueBussinessLayer.RegisterLeague(league);
+        }
+        [HttpGet]
+        [Authorize]
+        public async Task<List<MyLeagues>> MyLeagues()
+        {
+            int user_id = int.Parse(User.FindFirst("id").Value);
+            return await _leagueBussinessLayer.GetMyLeagues(user_id);
 
         }
 

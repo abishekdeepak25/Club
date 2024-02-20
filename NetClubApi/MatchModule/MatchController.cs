@@ -1,21 +1,30 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using NetClubApi.ClubModule;
 using NetClubApi.Comman;
 using NetClubApi.Helper;
 using NetClubApi.Model;
 
-namespace NetClubApi.MatchModel
+namespace NetClubApi.MatchModule
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class MatchController : ControllerBase
     {
+        private readonly IMatchBusinessLogic _matchBussinessLogics;
+        //private readonly IMatchDataAccess _matchDataAccess;
+
+        public MatchController(IMatchBusinessLogic matchBussinessLogic)
+        {
+            _matchBussinessLogics = matchBussinessLogic;
+        }
         [HttpPost]
         //[Authorize]
-        public async Task<string> CreateSchedule(int league_id)
+        public async Task<IActionResult> CreateSchedule(MatchModel match)
         {
-            return "";
+            string msg=await _matchBussinessLogics.CreateSchedule(match);
+            return Ok(msg);
         }
 
         [HttpGet]

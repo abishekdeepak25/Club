@@ -2,8 +2,7 @@
 {
     public class MyClub:IClubResponse
     {
-
-
+        public int Id { get; set; }
         public string Name { get; set; }
         public int? TotalLeagues { get; set; }
         public int? Teams { get; set; }

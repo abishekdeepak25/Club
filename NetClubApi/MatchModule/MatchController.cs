@@ -29,9 +29,9 @@ namespace NetClubApi.MatchModule
 
         [HttpGet]
         //[Authorize]
-        public async Task<string> GetSchedule(int league_id)
+        public async Task<List<Schedule>> GetSchedule(int league_id)
         {
-            return "";
+            return await _matchBussinessLogics.GetSchedule(league_id);
         }
 
         [HttpGet]

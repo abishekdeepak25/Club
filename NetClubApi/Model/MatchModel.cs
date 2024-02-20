@@ -21,4 +21,18 @@ namespace NetClubApi.Model
         public int point { get; set; }
         public int rating { get; set; }
     }
+    public class Schedule
+    {
+        public Team? team1 { get; set; }
+        public Team? team2 { get; set; }
+        public string? start_date { get; set; }
+        public string? end_date { get; set; }
+        public int? score{ get; set; }
+        public string? venue { get; set; }
+    }
+    public class Team
+    {
+        public int team_id { get; set; }
+        public string team_name { get; set; }
+    }
 }

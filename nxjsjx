@@ -1,0 +1,47 @@
+[33mcommit 4d8e53e5fabdf9fcd7374a97e7f3a850e9856725[m[33m ([m[1;36mHEAD -> [m[1;32mabishek[m[33m, [m[1;31morigin/abishek[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Abishekdeepak5 <143536892+Abishekdeepak5@users.noreply.github.com>
+Date:   Mon Feb 5 20:19:36 2024 +0530
+
+    Add or update the Azure App Service build and deployment workflow config
+
+[33mcommit 8be2aa75111b0197893e0a4a145857fffe5aefec[m
+Author: Abishek Aranganathan <abisheka@avecsage.com>
+Date:   Fri Feb 2 21:48:15 2024 +0530
+
+    Model variable name match to DB
+
+[33mcommit 401f3bec332c4e7989102603aff2e42f6dd51125[m
+Author: Abishek Aranganathan <abisheka@avecsage.com>
+Date:   Wed Jan 31 14:43:40 2024 +0530
+
+    Auth
+
+[33mcommit 3df64e3fdc5c4cf698f780d7bf096a5308c89b9a[m
+Author: Abishek Aranganathan <abisheka@avecsage.com>
+Date:   Wed Jan 31 14:42:08 2024 +0530
+
+    Auth Token
+
+[33mcommit e01fed9b6e549243f16c9010b64de5f549d19b6d[m
+Author: aathi github <aathisnr123@gmail.com>
+Date:   Wed Jan 31 12:32:57 2024 +0530
+
+    authentication completed
+
+[33mcommit aff39fbf396de64f8725649816a993ca42746224[m
+Author: aathi github <aathisnr123@gmail.com>
+Date:   Wed Jan 31 00:32:22 2024 +0530
+
+    authentication
+
+[33mcommit 7b07c1febd97cfa93537272aca7cadfde44614ea[m
+Author: Ajith Nadarajan <anadarajan@avecsage.com>
+Date:   Sat Jan 27 16:44:12 2024 -0500
+
+    First Check in
+
+[33mcommit 01f34342c93299595fb24377432af4aa27e0c93e[m
+Author: Ajith Nadarajan <anadarajan@avecsage.com>
+Date:   Sat Jan 27 14:05:09 2024 +0000
+
+    Added README.md

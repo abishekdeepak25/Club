@@ -93,7 +93,7 @@ namespace NetClubApi.UserModule
                     user.IsSuccess = true;
                     _netClubDbContext.User_detail.Add(user);
 
-                     _netClubDbContext.SaveChanges();
+                   //  _netClubDbContext.SaveChanges();
                  
                 }
             }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NetClubApi.Model
 {
-    public class User
+    public class UserModel
     {
 
         [Key]
@@ -16,6 +16,9 @@ namespace NetClubApi.Model
         public string Password { get; set; }
         public string Email { get; set; }
         public string Phone_number { get; set; }
+
+        public string date_of_birth { get; set; }
+        public string gender { get; set; }
 
         [NotMapped]
         public bool IsSuccess { get; set; }

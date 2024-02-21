@@ -1,21 +1,32 @@
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-
 using NetClubApi.UserModule;
 using NetClubApi.Model;
 using NetClubApi.Comman;
+using NetClubApi.ClubModule;
+using NetClubApi.Helper;
+using NetClubApi.LeagueModule;
+using NetClubApi.MatchModule;
+using NetClubApi.Modules.TeamModule;
 
 var builder = WebApplication.CreateBuilder(args);
 
+sqlHelper.conStr = ConfigurationExtensions.GetConnectionString(builder.Configuration, "DefaultConnection");
 #region dependency injection
 
-    builder.Services.AddTransient<IUserDataAccess, UserDataAccess>();
-    builder.Services.AddTransient<IHelper, Helper>();
+builder.Services.AddTransient<IUserDataAccess, UserDataAccess>();
+builder.Services.AddTransient<IHelper, Helper>();
+builder.Services.AddTransient<IClubBussinessLogics, ClubBussinessLogic>();
+builder.Services.AddTransient<IMatchBusinessLogic, MatchBusinessLogic>();
+builder.Services.AddTransient<ITeamBusinessLogic, TeamBusinessLogic>();
+builder.Services.AddTransient<IClubDataAccess,ClubDataAccess>();
+builder.Services.AddTransient<IMatchDataAccess, MatchDataAccess>();
+builder.Services.AddTransient<ITeamDataAccess, TeamDataAccess>();
+
 #endregion
 
 
@@ -85,6 +96,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 
 #endregion
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

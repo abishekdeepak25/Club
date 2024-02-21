@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.Mozilla;
 
 namespace NetClubApi.Model
 {
@@ -11,6 +12,11 @@ namespace NetClubApi.Model
         }
 
 
-        public DbSet<User> User_detail { get; set; } 
+        public DbSet<UserModel> User_detail { get; set; } 
+        public DbSet<Club> club { get; set; }
+        public DbSet<ClubRegistration> club_registration { get; set; }
+        public DbSet<League> league { get; set; }
+        public DbSet<LeagueRegistration> league_registration { get; set; }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using NetClubApi.Model;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -9,7 +10,7 @@ namespace NetClubApi.Comman
 
     public interface IHelper
     {
-        public string generateToken(string email);
+        public string generateToken(UserModel user);
         public string DecodeBase64(string strvalue);
         public string EncodeBase64(string strvalue);
     }
@@ -44,13 +45,14 @@ namespace NetClubApi.Comman
 
         
 
-        public string generateToken(string email)
+        public string generateToken(UserModel user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("apwmdlliendaddnetknz=3mlkd652341");
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("email", email) }),
+                Subject = new ClaimsIdentity(new[] { new Claim("email", user.Email) ,new Claim("id",user.Id.ToString())
+                }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };

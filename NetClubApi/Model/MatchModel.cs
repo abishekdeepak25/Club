@@ -23,6 +23,7 @@ namespace NetClubApi.Model
     }
     public class Schedule
     {
+        public int match_id { get; set; }
         public Team? team1 { get; set; }
         public Team? team2 { get; set; }
         public string? start_date { get; set; }

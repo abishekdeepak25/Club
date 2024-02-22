@@ -25,28 +25,7 @@ namespace NetClubApi.LeagueModule
 
         {
             int user_id = int.Parse(User.FindFirst("id").Value);
-            var userClaims = User.FindFirst("id");
-            var id = userClaims.Value;
-            Console.WriteLine(int.Parse(id));
-            //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaXNoZWs1QGdtYWlsLmNvbSIsImlkIjoiMjUiLCJuYmYiOjE3MDg2MTAyOTEsImV4cCI6MTcwOTIxNTA5MSwiaWF0IjoxNzA4NjEwMjkxfQ.903sKFWgnHIMR5InrYQv - lCEUtoN15lBqV4Eq1KoihE
-            /* {
-                 "id": 0,
-   "name": "Abishek",
-   "club_id": 38,
-   "start_date": "2024-02-22T14:21:47.108Z",
-   "end_date": "2024-02-28T14:21:47.108Z",
-   "league_type_id": 1,
-   "schedule_type_id": 1,
-   "number_of_teams": 4,
-   "number_of_teams_playoffs": 2,
-   "playoff_start_date": "2024-02-25T14:21:47.108Z",
-   "playoff_end_date": "2024-02-27T14:21:47.108Z",
-   "playoff_type_id": 1,
-   "registration_start_date": "2024-02-22T14:21:47.108Z",
-   "registration_end_date": "2024-02-25T14:21:47.108Z"
- }*/
-            //return "Abishek";
-            return await _leagueDataAccess.CreateLeague(league, int.Parse(id));
+            return await _leagueDataAccess.CreateLeague(league,user_id);
             
         }
 

@@ -22,6 +22,8 @@ sqlHelper.conStr = ConfigurationExtensions.GetConnectionString(builder.Configura
 builder.Services.AddTransient<IClubBussinessLogics, ClubBussinessLogic>();
 builder.Services.AddTransient<IMatchBusinessLogic, MatchBusinessLogic>();
 builder.Services.AddTransient<IClubDataAccess,ClubDataAccess>();
+builder.Services.AddTransient<ILeagueBussinessLayer, LeagueBussinessLayer>();
+builder.Services.AddTransient<ILeagueDataAccess, LeagueDataAccess>();
 #endregion
 
 

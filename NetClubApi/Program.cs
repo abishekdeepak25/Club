@@ -22,6 +22,7 @@ builder.Services.AddTransient<IUserDataAccess, UserDataAccess>();
 builder.Services.AddTransient<IHelper, Helper>();
 builder.Services.AddTransient<IClubBussinessLogics, ClubBussinessLogic>();
 builder.Services.AddTransient<IMatchBusinessLogic, MatchBusinessLogic>();
+builder.Services.AddTransient<ILeagueBussinessLayer, LeagueBussinessLayer>();
 builder.Services.AddTransient<ITeamBusinessLogic, TeamBusinessLogic>();
 builder.Services.AddTransient<IClubDataAccess,ClubDataAccess>();
 

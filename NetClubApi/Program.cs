@@ -24,8 +24,13 @@ builder.Services.AddTransient<IClubBussinessLogics, ClubBussinessLogic>();
 builder.Services.AddTransient<IMatchBusinessLogic, MatchBusinessLogic>();
 builder.Services.AddTransient<ITeamBusinessLogic, TeamBusinessLogic>();
 builder.Services.AddTransient<IClubDataAccess,ClubDataAccess>();
+
+builder.Services.AddTransient<ILeagueBussinessLayer, LeagueBussinessLayer>();
+builder.Services.AddTransient<ILeagueDataAccess, LeagueDataAccess>();
+
 builder.Services.AddTransient<IMatchDataAccess, MatchDataAccess>();
 builder.Services.AddTransient<ITeamDataAccess, TeamDataAccess>();
+
 
 #endregion
 

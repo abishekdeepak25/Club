@@ -2,24 +2,25 @@
 using NetClubApi.Model;
 using System.Data.SqlTypes;
 
-namespace NetClubApi.ClubModule
+namespace NetClubApi.Modules.ClubModule
 {
 
     public interface IClubDataAccess
     {
         public Task<List<ClubRegistration>> getCreatedClub(int id);
         public Task<Club> getClubDetails(int club_id);
-        
-        public Task<string> CreateClub(Club club,int id);
+
+        public Task<string> CreateClub(Club club, int id);
         public Task<List<ClubRegistration>> getRegisteredClub(int id);
-        public Task<string> ClubRegistration(Club code,int user_id);
+        public Task<string> ClubRegistration(Club code, int user_id);
     }
 
     public class ClubDataAccess : IClubDataAccess
     {
         private readonly NetClubDbContext _netClubDbContext;
-        
-        public ClubDataAccess(NetClubDbContext netClubDbContext) {
+
+        public ClubDataAccess(NetClubDbContext netClubDbContext)
+        {
             _netClubDbContext = netClubDbContext;
 
 
@@ -41,7 +42,7 @@ namespace NetClubApi.ClubModule
 
 
             }
-            catch   (Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -55,8 +56,8 @@ namespace NetClubApi.ClubModule
             {
                 Console.WriteLine(club_id + 1);
                 // Retrieve a single club entity with the specified club_id
-                var clubs = await _netClubDbContext.club.FirstOrDefaultAsync(user => (
-                          user.Id == club_id)
+                var clubs = await _netClubDbContext.club.FirstOrDefaultAsync(user => 
+                          user.Id == club_id
                     );
                 Console.WriteLine(clubs);
                 return clubs;
@@ -67,7 +68,7 @@ namespace NetClubApi.ClubModule
             }
         }
 
-        public async Task<string> CreateClub(Club club,int userId)
+        public async Task<string> CreateClub(Club club, int userId)
         {
 
             try
@@ -76,14 +77,14 @@ namespace NetClubApi.ClubModule
                 club.club_label = await GenerateUniqueLabel();
 
 
-                var registerclub  = await _netClubDbContext.club.AddAsync
+                var registerclub = await _netClubDbContext.club.AddAsync
 (club);
                 await _netClubDbContext.SaveChangesAsync();
                 ClubRegistration clubRegistration = new();
 
                 clubRegistration.user_id = userId;
                 clubRegistration.club_id = registerclub.Entity.Id;
-                
+
                 clubRegistration.isadmin = true;
                 await _netClubDbContext.AddAsync(clubRegistration);
                 await _netClubDbContext.SaveChangesAsync();
@@ -92,7 +93,7 @@ namespace NetClubApi.ClubModule
 
                 return "Club created Successfully";
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -100,15 +101,15 @@ namespace NetClubApi.ClubModule
 
         }
 
-        
+
         public async Task<List<ClubRegistration>> getRegisteredClub(int id)
         {
             List<ClubRegistration> clubs = new();
             try
             {
 
-                
-                clubs = await _netClubDbContext.club_registration.Where(clubs => clubs.user_id == id &&  !clubs.isadmin).ToListAsync();
+
+                clubs = await _netClubDbContext.club_registration.Where(clubs => clubs.user_id == id && !clubs.isadmin).ToListAsync();
 
 
                 return clubs;
@@ -124,7 +125,7 @@ namespace NetClubApi.ClubModule
 
         }
 
-        public async Task<string> ClubRegistration(Club code,int user_id)
+        public async Task<string> ClubRegistration(Club code, int user_id)
         {
             // get the club id using the code
             var club = await _netClubDbContext.club.FirstOrDefaultAsync(club => club.club_label == code.club_label);
@@ -132,7 +133,7 @@ namespace NetClubApi.ClubModule
             if (club == default)
                 return "club not found";
             var club_id = club.Id;
-            if ( await IsAlreadyRegister(club_id,user_id))
+            if (await IsAlreadyRegister(club_id, user_id))
                 return "already register in this club";
             else
             {
@@ -152,7 +153,7 @@ namespace NetClubApi.ClubModule
 
         private async Task<bool> IsAlreadyRegister(int club_id, int user_id)
         {
-           var club = await _netClubDbContext.club_registration.FirstOrDefaultAsync(club => club.Id == club_id && club.user_id == user_id);
+            var club = await _netClubDbContext.club_registration.FirstOrDefaultAsync(club => club.Id == club_id && club.user_id == user_id);
             if (club == default)
                 return false;
             return true;
@@ -176,8 +177,8 @@ namespace NetClubApi.ClubModule
         }
 
         private async Task<bool> IsStringExistsInDatabase(string randomString)
-        {   
-            var club = await _netClubDbContext.club.FirstOrDefaultAsync(club => club.club_label==randomString);
+        {
+            var club = await _netClubDbContext.club.FirstOrDefaultAsync(club => club.club_label == randomString);
             if (club != null)
             {
                 return true;

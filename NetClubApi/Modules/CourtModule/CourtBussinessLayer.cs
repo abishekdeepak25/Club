@@ -1,4 +1,4 @@
-﻿namespace NetClubApi.CourtModule
+﻿namespace NetClubApi.Modules.CourtModule
 {
     public class CourtBussinessLayer
     {

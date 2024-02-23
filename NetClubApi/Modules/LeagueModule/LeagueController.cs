@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NetClubApi.Model;
 using NetClubApi.Model.ResponseModel;
 
-namespace NetClubApi.LeagueModule
+namespace NetClubApi.Modules.LeagueModule
 {
 
     [Route("api/[controller]/[action]")]
@@ -12,7 +12,7 @@ namespace NetClubApi.LeagueModule
     {
         private readonly ILeagueDataAccess _leagueDataAccess;
         private readonly ILeagueBussinessLayer _leagueBussinessLayer;
-        public LeagueController(ILeagueDataAccess leagueDataAccess,ILeagueBussinessLayer leagueBussinessLayer)
+        public LeagueController(ILeagueDataAccess leagueDataAccess, ILeagueBussinessLayer leagueBussinessLayer)
         {
             _leagueDataAccess = leagueDataAccess;
             _leagueBussinessLayer = leagueBussinessLayer;
@@ -20,13 +20,13 @@ namespace NetClubApi.LeagueModule
         [HttpPost]
         [Authorize]
 
-       //only admin can create the createLeague
+        //only admin can create the createLeague
         public async Task<string> CreateLeague(League league)
 
         {
             int user_id = int.Parse(User.FindFirst("id").Value);
-            return await _leagueDataAccess.CreateLeague(league,user_id);
-            
+            return await _leagueDataAccess.CreateLeague(league, user_id);
+
         }
 
         [HttpGet]

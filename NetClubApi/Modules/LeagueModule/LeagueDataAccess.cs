@@ -2,13 +2,13 @@
 using NetClubApi.Model;
 using NetClubApi.Model.ResponseModel;
 
-namespace NetClubApi.LeagueModule
+namespace NetClubApi.Modules.LeagueModule
 {
 
 
     public interface ILeagueDataAccess
     {
-        public Task<string> CreateLeague(League league,int user_id);
+        public Task<string> CreateLeague(League league, int user_id);
         public Task<League> GetLeague(int league_id);
         public Task<List<League>> GetLeagues(int club_id);
         Task<int?> getLeagueTeams(int league_id);
@@ -16,9 +16,9 @@ namespace NetClubApi.LeagueModule
         Task<int?> getNumberOfMatches(int league_id);
         public Task<bool> IsAdmin(int? club_id, int user_id);
         public Task<string> RegisterLeague(LeagueRegistration league);
-        public Task<Club> GetClub(int club_id); 
+        public Task<Club> GetClub(int club_id);
     }
-    public class LeagueDataAccess:ILeagueDataAccess
+    public class LeagueDataAccess : ILeagueDataAccess
     {
         private readonly NetClubDbContext netClubDbContext;
         public LeagueDataAccess(NetClubDbContext netClubDbContext)
@@ -26,7 +26,7 @@ namespace NetClubApi.LeagueModule
             this.netClubDbContext = netClubDbContext;
         }
 
-        public async Task<string> CreateLeague(League league,int user_id)
+        public async Task<string> CreateLeague(League league, int user_id)
         {
             try
             {
@@ -38,16 +38,16 @@ namespace NetClubApi.LeagueModule
                 }
                 return "league not created";
             }
-            catch(Exception )
+            catch (Exception)
             {
                 throw;
             }
-           
-            
+
+
 
         }
 
-        public  async Task<bool> IsAdmin(int? club_id, int user_id)
+        public async Task<bool> IsAdmin(int? club_id, int user_id)
         {
             var club = await netClubDbContext.club_registration.FirstOrDefaultAsync(club => club.club_id == club_id && club.user_id == user_id && club.isadmin);
             if (club == default)
@@ -55,16 +55,16 @@ namespace NetClubApi.LeagueModule
             return true;
         }
 
-        public  async Task<List<League>> GetLeagues(int club_Id)
+        public async Task<List<League>> GetLeagues(int club_Id)
         {
-            List<League> leagues =  await netClubDbContext.league.Where(league => league.club_id == club_Id).ToListAsync();
+            List<League> leagues = await netClubDbContext.league.Where(league => league.club_id == club_Id).ToListAsync();
             return leagues;
-            
+
         }
 
         public async Task<int?> getLeagueTeams(int league_id)
         {
-            League league =  await netClubDbContext.league.FirstOrDefaultAsync(league => league.Id == league_id);
+            League league = await netClubDbContext.league.FirstOrDefaultAsync(league => league.Id == league_id);
             return league.number_of_teams;
         }
 
@@ -77,12 +77,12 @@ namespace NetClubApi.LeagueModule
         {
             try
             {
-                 await netClubDbContext.league_registration.AddAsync(league);
+                await netClubDbContext.league_registration.AddAsync(league);
                 await netClubDbContext.SaveChangesAsync();
                 return "you register to the league";
 
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -90,7 +90,7 @@ namespace NetClubApi.LeagueModule
 
         public async Task<List<LeagueRegistration>> GetMyLeagues(int user_id)
         {
-            return  await netClubDbContext.league_registration.Where(league => league.user_id == user_id).ToListAsync();
+            return await netClubDbContext.league_registration.Where(league => league.user_id == user_id).ToListAsync();
         }
 
         public async Task<League> GetLeague(int league_id)

@@ -1,25 +1,25 @@
 ﻿using NetClubApi.Model;
 using NetClubApi.Model.ResponseModel;
 
-namespace NetClubApi.LeagueModule
+namespace NetClubApi.Modules.LeagueModule
 {
     public interface ILeagueBussinessLayer
     {
         public Task<List<LeagueResponse>> GetClubLeagues(int club_id);
         public Task<int?> GetLeagueTeams(int league_id);
-        public  Task<List<LeagueResponse>> ConvertToLeagueResponse(List<League> leagues);
+        public Task<List<LeagueResponse>> ConvertToLeagueResponse(List<League> leagues);
         public Task<string> RegisterLeague(LeagueRegistration league);
         public Task<List<MyLeagues>> GetMyLeagues(int user_id);
     }
 
-    
+
     public class LeagueBussinessLayer : ILeagueBussinessLayer
     {
         private readonly ILeagueDataAccess _dataAccess;
 
         public LeagueBussinessLayer(ILeagueDataAccess dataAccess)
         {
-            this._dataAccess = dataAccess;
+            _dataAccess = dataAccess;
         }
         public async Task<List<LeagueResponse>> GetClubLeagues(int club_id)
         {
@@ -36,10 +36,10 @@ namespace NetClubApi.LeagueModule
 
         }
 
-        public  async Task<List<LeagueResponse>> ConvertToLeagueResponse(List<League> leagues)
+        public async Task<List<LeagueResponse>> ConvertToLeagueResponse(List<League> leagues)
         {
             List<LeagueResponse> responses = new();
-            foreach(League league in leagues)
+            foreach (League league in leagues)
             {
                 LeagueResponse leagueResponse = new();
                 leagueResponse.LeagueName = league.name;
@@ -57,10 +57,10 @@ namespace NetClubApi.LeagueModule
         {
             try
             {
-                
+
                 return await _dataAccess.RegisterLeague(league);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -70,7 +70,7 @@ namespace NetClubApi.LeagueModule
         {
             List<LeagueRegistration> registeredLeagues = await _dataAccess.GetMyLeagues(user_id);
             List<MyLeagues> myLeagues = new();
-            foreach(LeagueRegistration league in registeredLeagues)
+            foreach (LeagueRegistration league in registeredLeagues)
             {
                 MyLeagues myLeague = new();
                 myLeague.LeagueName = GetLeagueName(await _dataAccess.GetLeague(league.league_id));

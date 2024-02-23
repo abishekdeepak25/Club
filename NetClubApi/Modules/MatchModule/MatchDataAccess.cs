@@ -2,14 +2,14 @@
 using NetClubApi.Helper;
 using NetClubApi.Model;
 
-namespace NetClubApi.MatchModule
+namespace NetClubApi.Modules.MatchModule
 {
     public interface IMatchDataAccess
     {
         public Task<string> createMatch(MatchModel match);
         public Task<List<Schedule>> getSchedule(int league_id);
         public Task<List<Schedule>> getMyMatches(int user_id);
-        
+
     }
     public class MatchDataAccess : IMatchDataAccess
     {
@@ -22,17 +22,17 @@ namespace NetClubApi.MatchModule
                     myCon.Open();
                     string sql1 = $@"INSERT INTO [dbo].[match] (club_id, league_id, team1_id, team2_id,player1_id,player2_id,start_date,end_date,court_id,point)
                                    VALUES ('{match.club_id}','{match.league_id}','{match.team1_id}',    '{match.team2_id}','{match.player1_id}','{match.player2_id}','{match.start_date}','{match.end_date}','{match.court_id}',{0})";
-                     using (SqlCommand myCommand1 = new SqlCommand(sql1, myCon))
-                     {
-                         myCommand1.ExecuteNonQuery();
-                     }
-                        myCon.Close();
+                    using (SqlCommand myCommand1 = new SqlCommand(sql1, myCon))
+                    {
+                        myCommand1.ExecuteNonQuery();
+                    }
+                    myCon.Close();
                 }
                 return Task.FromResult("Success");
             }
             catch (Exception ex)
             {
-               return Task.FromResult("Failed"+ex.Message);
+                return Task.FromResult("Failed" + ex.Message);
             }
         }
 
@@ -44,7 +44,7 @@ namespace NetClubApi.MatchModule
                 using (SqlConnection myCon = sqlHelper.GetConnection())
                 {
                     myCon.Open();
-                    string sql2=$@"SELECT 
+                    string sql2 = $@"SELECT 
     [dbo].[match].match_id,
     team1_id,
     Team1.team_name Team1name,
@@ -68,20 +68,20 @@ where [dbo].[match].league_id={league_id}";
                         SqlDataReader reader = myCommand.ExecuteReader();
                         if (reader.HasRows)
                         {
-                            
+
                             while (reader.Read())
                             {
                                 Schedule schedule = new Schedule
                                 {
                                     match_id = (int)reader["match_id"],
                                     team1 = new Team { team_id = (int)reader["team1_id"], team_name = (string)reader["team1name"] },
-                                    team2 =new Team { team_id = (int)reader["team2_id"], team_name = (string)reader["team2name"] },
+                                    team2 = new Team { team_id = (int)reader["team2_id"], team_name = (string)reader["team2name"] },
                                     start_date = $"{(DateTime)reader["start_date"]}",
                                     end_date = $"{(DateTime)reader["end_date"]}",
                                     score = (int)reader["point"],
                                     venue = (string)reader["court_name"]
                                 };
-                            schedules.Add(schedule);
+                                schedules.Add(schedule);
                             }
                         }
                         else

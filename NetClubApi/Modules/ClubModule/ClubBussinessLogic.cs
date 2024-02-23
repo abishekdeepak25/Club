@@ -2,20 +2,20 @@
 using NetClubApi.Model.ResponseModel;
 using Org.BouncyCastle.Utilities;
 
-namespace NetClubApi.ClubModule
+namespace NetClubApi.Modules.ClubModule
 {
 
     public interface IClubBussinessLogics
     {
         public Task<List<IClubResponse>> getMyClubs(int user_id);
         public Task<List<IClubResponse>> RegisteredClubs(int user_id);
-        public  Task<List<IClubResponse>> getClubDetails(List<ClubRegistration> clubs);
+        public Task<List<IClubResponse>> getClubDetails(List<ClubRegistration> clubs);
     }
     public class ClubBussinessLogic : IClubBussinessLogics
     {
         private readonly IClubDataAccess _clubDataAccess;
-        
-        public ClubBussinessLogic (IClubDataAccess clubDataAccess)
+
+        public ClubBussinessLogic(IClubDataAccess clubDataAccess)
         {
             _clubDataAccess = clubDataAccess;
         }
@@ -31,12 +31,12 @@ namespace NetClubApi.ClubModule
                 //gathering details for the list of clubs
                 return await getClubDetails(clubs);
             }
-            catch(Exception )
+            catch (Exception)
             {
                 throw;
             }
 
-            
+
         }
 
 
@@ -44,11 +44,11 @@ namespace NetClubApi.ClubModule
         public async Task<List<IClubResponse>> getClubDetails(List<ClubRegistration> clubs)
         {
 
-            
+
             try
             {
                 List<IClubResponse> listOfClubs = new();
-              var value =   clubs.Count();
+                var value = clubs.Count();
                 if (value == 0)
                     return listOfClubs;
                 //if admin call the method
@@ -69,7 +69,7 @@ namespace NetClubApi.ClubModule
                             //myclub.ActiveLeagues = clubdetails.active_league;
                             //myclub.Teams = clubdetails.teams;
                             myclub.TotalLeagues = 0;
-                            myclub.ActiveLeagues =0;
+                            myclub.ActiveLeagues = 0;
                             myclub.Teams = 0;
 
                             listOfClubs.Add(myclub);
@@ -84,41 +84,41 @@ namespace NetClubApi.ClubModule
 
 
                         Club clubdetails = await _clubDataAccess.getClubDetails(club.club_id);
-                        
+
                         if (clubdetails != null)
                         {
                             RegisterClub registerClub = new();
                             registerClub.Name = clubdetails.club_name;
                             registerClub.JoinDate = club.join_date;
                             //registerClub.LeaguesPlayed = club.league_played;
-                            registerClub.CreatedBy= clubdetails.created_by;
+                            registerClub.CreatedBy = clubdetails.created_by;
                             listOfClubs.Add(registerClub);
                         }
                     }
                 }
                 return listOfClubs;
             }
-            catch(Exception )
+            catch (Exception)
             {
                 throw;
             }
-            
-            
+
+
         }
-        
-        
+
+
         public async Task<List<IClubResponse>> RegisteredClubs(int user_id)
         {
             try
             {
                 var clubs = await _clubDataAccess.getRegisteredClub(user_id);
-                return await  getClubDetails(clubs);
+                return await getClubDetails(clubs);
             }
-            catch(Exception )
+            catch (Exception)
             {
                 throw;
             }
-            
+
 
         }
     }

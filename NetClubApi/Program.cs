@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using NetClubApi.UserModule;
 using NetClubApi.Model;
 using NetClubApi.Comman;
-using NetClubApi.ClubModule;
 using NetClubApi.Helper;
-using NetClubApi.LeagueModule;
-using NetClubApi.MatchModule;
 using NetClubApi.Modules.TeamModule;
+using NetClubApi.Modules.LeagueModule;
+using NetClubApi.Modules.ClubModule;
+using NetClubApi.Modules.MatchModule;
+using NetClubApi.Modules.UserModule;
 
 var builder = WebApplication.CreateBuilder(args);
 

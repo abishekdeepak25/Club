@@ -4,25 +4,25 @@ using NetClubApi.Model;
 using NetClubApi.Model.ResponseModel;
 using System.Security.Claims;
 
-namespace NetClubApi.ClubModule
+namespace NetClubApi.Modules.ClubModule
 {
 
 
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class ClubController:ControllerBase
+    public class ClubController : ControllerBase
     {
 
-        
-        
-        private readonly IClubBussinessLogics  _clubBussinessLogics;
+
+
+        private readonly IClubBussinessLogics _clubBussinessLogics;
         private readonly IClubDataAccess _clubDataAccess;
 
-        public ClubController(IClubBussinessLogics clubBussinessLogic,IClubDataAccess clubDataAccess)
+        public ClubController(IClubBussinessLogics clubBussinessLogic, IClubDataAccess clubDataAccess)
         {
             _clubBussinessLogics = clubBussinessLogic;
             _clubDataAccess = clubDataAccess;
-            
+
         }
         // my club action
         [HttpGet]
@@ -34,8 +34,8 @@ namespace NetClubApi.ClubModule
             {
 
                 var userClaims = User.FindFirst("id");
-                var  id = userClaims.Value;
-                
+                var id = userClaims.Value;
+
                 List<IClubResponse> clubs = await _clubBussinessLogics.getMyClubs(int.Parse(id));
                 if (clubs.Any() && clubs[0] is MyClub)
                 {
@@ -43,13 +43,13 @@ namespace NetClubApi.ClubModule
                     var myClub = clubs.Cast<MyClub>().ToList();
                     return Ok(myClub);
                 }
-                
+
                 else
                 {
                     // If the list is empty or doesn't contain objects of expected types, return an empty response or appropriate status code
                     return Ok("you have no clubs! create it ");
                 }
-                
+
 
 
             }
@@ -68,9 +68,9 @@ namespace NetClubApi.ClubModule
         {
             try
             {
-                return Ok(await _clubDataAccess.CreateClub(club,int.Parse(User.FindFirst("id").Value)));
+                return Ok(await _clubDataAccess.CreateClub(club, int.Parse(User.FindFirst("id").Value)));
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -81,11 +81,11 @@ namespace NetClubApi.ClubModule
         //get the list of club rigistered 
         public async Task<IActionResult> RegisteredClubs()
         {
-                try
+            try
             {
                 var userClaims = User.FindFirst("id");
                 var registerClub = await _clubBussinessLogics.RegisteredClubs(int.Parse(userClaims.Value));
-                if(registerClub.Any() && registerClub[0] is RegisterClub)
+                if (registerClub.Any() && registerClub[0] is RegisterClub)
                 {
                     return Ok(registerClub.Cast<RegisterClub>().ToList());
                 }
@@ -94,7 +94,8 @@ namespace NetClubApi.ClubModule
                     return Ok("you not register to any club");
 
                 }
-            }catch(Exception )
+            }
+            catch (Exception)
             {
                 throw;
             }
@@ -111,7 +112,7 @@ namespace NetClubApi.ClubModule
                 //Console.WriteLine(claim.Value);
                 return Ok(await _clubDataAccess.ClubRegistration(club, int.Parse(claim.Value)));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Ok(ex.Message);
             }

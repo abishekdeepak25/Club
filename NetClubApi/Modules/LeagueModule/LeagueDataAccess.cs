@@ -34,9 +34,9 @@ namespace NetClubApi.Modules.LeagueModule
                 {
                     await netClubDbContext.AddAsync(league);
                     netClubDbContext.SaveChanges();
-                    return "league created successfully";
+                    return "League created";
                 }
-                return "league not created";
+                return "League not created";
             }
             catch (Exception)
             {
@@ -79,12 +79,12 @@ namespace NetClubApi.Modules.LeagueModule
             {
                 await netClubDbContext.league_registration.AddAsync(league);
                 await netClubDbContext.SaveChangesAsync();
-                return "you register to the league";
+                return "register";
 
             }
             catch (Exception)
             {
-                throw;
+                return "NotRegister";
             }
         }
 

@@ -25,13 +25,12 @@ namespace NetClubApi.Modules.LeagueModule
 
         {
             int user_id = int.Parse(User.FindFirst("id").Value);
-            return await _leagueDataAccess.CreateLeague(league, user_id);
-
+            return await _leagueBussinessLayer.CreateLeague(league,user_id);
         }
 
         [HttpGet]
         [Authorize]
-        public async Task<List<LeagueResponse>> GetClubLeagues(int club_Id)
+        public async Task<List<League>> GetClubLeagues(int club_Id)
         {
             return await _leagueBussinessLayer.GetClubLeagues(club_Id);
         }
@@ -53,7 +52,7 @@ namespace NetClubApi.Modules.LeagueModule
         }
         [HttpGet]
         [Authorize]
-        public async Task<List<MyLeagues>> MyLeagues()
+        public async Task<List<MyLeagues>> RegisterLeagues()
         {
             int user_id = int.Parse(User.FindFirst("id").Value);
             return await _leagueBussinessLayer.GetMyLeagues(user_id);

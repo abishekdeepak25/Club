@@ -88,13 +88,26 @@ namespace NetClubApi.Modules.ClubModule
         var registerClub = await _clubBussinessLogics.RegisteredClubs(int.Parse(userClaims.Value));
         if (registerClub.Any() && registerClub[0] is RegisterClub)
         {
-            listOfRegisterClubs = registerClub.Cast<RegisterClub>().ToList();
-            return listOfRegisterClubs;
-        }
-        else
-        {
-            return listOfRegisterClubs;
+                List<RegisterClub> listOfRegisterClubs = new();
+            try
+            {
+                var userClaims = User.FindFirst("id");
+                var registerClub = await _clubBussinessLogics.RegisteredClubs(int.Parse(userClaims.Value));
+                if (registerClub.Any() && registerClub[0] is RegisterClub)
+                {
+                    return listOfRegisterClubs = registerClub.Cast<RegisterClub>().ToList();
+                }
+                else
+                {
+                    return listOfRegisterClubs;
 
+                }
+            }
+            catch (Exception)
+            {
+                return listOfRegisterClubs;
+
+            }
         }
     }
     catch (Exception)

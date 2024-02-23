@@ -2,11 +2,12 @@
 
 namespace NetClubApi.CourtModule
 {
-    public class CourtController : Controller
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class CourtController : ControllerBase
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+
+        
+
     }
 }

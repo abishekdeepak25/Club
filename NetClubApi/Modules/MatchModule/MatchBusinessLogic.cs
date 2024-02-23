@@ -1,4 +1,4 @@
-﻿using NetClubApi.ClubModule;
+﻿using NetClubApi.Modules.ClubModule;
 using NetClubApi.Model;
 using NetClubApi.Model.ResponseModel;
 using Org.BouncyCastle.Utilities;

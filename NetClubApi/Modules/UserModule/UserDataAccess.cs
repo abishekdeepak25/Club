@@ -6,7 +6,7 @@ using NetClubApi.Comman;
 using NetClubApi.Helper;
 using NetClubApi.Model;
 
-namespace NetClubApi.UserModule
+namespace NetClubApi.Modules.UserModule
 {
     public interface IUserDataAccess
     {
@@ -18,7 +18,7 @@ namespace NetClubApi.UserModule
 
         private readonly IHelper _helper;
         private readonly NetClubDbContext _netClubDbContext;
-        public UserDataAccess(IHelper helper,NetClubDbContext netClubDbContext)
+        public UserDataAccess(IHelper helper, NetClubDbContext netClubDbContext)
         {
             _helper = helper;
             _netClubDbContext = netClubDbContext;
@@ -75,7 +75,7 @@ namespace NetClubApi.UserModule
             return user;
         }
 
-        public  async Task<UserModel> RegisterUser(UserModel user)
+        public async Task<UserModel> RegisterUser(UserModel user)
         {
             try
             {

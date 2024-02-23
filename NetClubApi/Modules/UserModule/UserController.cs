@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NetClubApi.Comman;
 using NetClubApi.Model;
 
-namespace NetClubApi.UserModule
+namespace NetClubApi.Modules.UserModule
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -12,11 +12,11 @@ namespace NetClubApi.UserModule
         private readonly IUserDataAccess _dataAccess;
         private readonly IHelper _helper;
 
-        
-        public  UserController(IUserDataAccess dataAccess,IHelper helper)
+
+        public UserController(IUserDataAccess dataAccess, IHelper helper)
         {
-                _dataAccess = dataAccess;
-                 _helper = helper;
+            _dataAccess = dataAccess;
+            _helper = helper;
         }
 
         [HttpGet]
@@ -38,14 +38,14 @@ namespace NetClubApi.UserModule
 
         [HttpPost]
         [AllowAnonymous]
-        public async  Task<UserModel> Registration(UserModel user)
+        public async Task<UserModel> Registration(UserModel user)
         {
-            user =  await _dataAccess.RegisterUser(user);
+            user = await _dataAccess.RegisterUser(user);
             if (user.IsSuccess)
                 user.Token = _helper.generateToken(user);
             return user;
         }
-        
+
     }
 }
 /*

@@ -79,28 +79,30 @@ namespace NetClubApi.Modules.ClubModule
         [HttpGet]
         [Authorize]
         //get the list of club rigistered 
-        public async Task<List<RegisterClub>> RegisteredClubs()
+       public async Task<List<RegisterClub>> RegisteredClubs()
+{
+        List<RegisterClub> listOfRegisterClubs = new();
+    try
+    {
+        var userClaims = User.FindFirst("id");
+        var registerClub = await _clubBussinessLogics.RegisteredClubs(int.Parse(userClaims.Value));
+        if (registerClub.Any() && registerClub[0] is RegisterClub)
         {
-            try
-            {
-                List<RegisterClub> listOfRegisterClubs = new();
-                var userClaims = User.FindFirst("id");
-                var registerClub = await _clubBussinessLogics.RegisteredClubs(int.Parse(userClaims.Value));
-                if (registerClub.Any() && registerClub[0] is RegisterClub)
-                {
-                    listOfRegisterClubs = registerClub.Cast<RegisterClub>().ToList();
-                }
-                else
-                {
-                    return Ok("you not register to any club");
-
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            listOfRegisterClubs = registerClub.Cast<RegisterClub>().ToList();
+            return listOfRegisterClubs;
         }
+        else
+        {
+            return listOfRegisterClubs;
+
+        }
+    }
+    catch (Exception)
+    {
+        return listOfRegisterClubs;
+
+    }
+}
 
         [HttpPost]
         [Authorize]

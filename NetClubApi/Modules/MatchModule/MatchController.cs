@@ -6,7 +6,7 @@ using NetClubApi.Comman;
 using NetClubApi.Helper;
 using NetClubApi.Model;
 
-namespace NetClubApi.MatchModule
+namespace NetClubApi.Modules.MatchModule
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -23,7 +23,7 @@ namespace NetClubApi.MatchModule
         //[Authorize]
         public async Task<IActionResult> CreateSchedule(MatchModel match)
         {
-            string msg=await _matchBussinessLogics.CreateSchedule(match);
+            string msg = await _matchBussinessLogics.CreateSchedule(match);
             return Ok(msg);
         }
 
@@ -56,10 +56,10 @@ namespace NetClubApi.MatchModule
         }
 
         [HttpGet]
-       // [Authorize]
+        // [Authorize]
         public async Task<List<Schedule>> GetMyMatches(int user_id)
         {
-           // int user_id = 25;
+            // int user_id = 25;
             return await _matchBussinessLogics.getMyMatches(user_id);
         }
     }

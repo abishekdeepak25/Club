@@ -3,7 +3,7 @@ using NetClubApi.Model;
 using NetClubApi.Model.ResponseModel;
 using Org.BouncyCastle.Utilities;
 
-namespace NetClubApi.MatchModule
+namespace NetClubApi.Modules.MatchModule
 {
     public interface IMatchBusinessLogic
     {

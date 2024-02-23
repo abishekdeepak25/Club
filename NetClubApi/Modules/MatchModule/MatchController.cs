@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using NetClubApi.ClubModule;
+using NetClubApi.Modules.ClubModule;
 using NetClubApi.Comman;
 using NetClubApi.Helper;
 using NetClubApi.Model;

@@ -81,24 +81,25 @@ namespace NetClubApi.Modules.ClubModule
         //get the list of club rigistered 
         public async Task<List<RegisterClub>> RegisteredClubs()
         {
+                List<RegisterClub> listOfRegisterClubs = new();
             try
             {
-                List<RegisterClub> listOfRegisterClubs = new();
                 var userClaims = User.FindFirst("id");
                 var registerClub = await _clubBussinessLogics.RegisteredClubs(int.Parse(userClaims.Value));
                 if (registerClub.Any() && registerClub[0] is RegisterClub)
                 {
-                    listOfRegisterClubs = registerClub.Cast<RegisterClub>().ToList();
+                    return listOfRegisterClubs = registerClub.Cast<RegisterClub>().ToList();
                 }
                 else
                 {
-                    return Ok("you not register to any club");
+                    return listOfRegisterClubs;
 
                 }
             }
             catch (Exception)
             {
-                throw;
+                return listOfRegisterClubs;
+
             }
         }
 

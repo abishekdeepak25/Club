@@ -18,5 +18,7 @@ namespace NetClubApi.Model
         public DbSet<League> league { get; set; }
         public DbSet<LeagueRegistration> league_registration { get; set; }
 
+        public DbSet<CourtModel> court { get; set; }
+
     }
 }

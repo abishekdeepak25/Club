@@ -6,7 +6,7 @@ namespace NetClubApi.LeagueModule
     public interface ILeagueBussinessLayer
     {
         public Task<List<LeagueResponse>> GetClubLeagues(int club_id);
-        public Task<int?> GetLeagueMatches(int league_id);
+        public Task<int?> GetLeagueTeams(int league_id);
         public  Task<List<LeagueResponse>> ConvertToLeagueResponse(List<League> leagues);
         public Task<string> RegisterLeague(LeagueRegistration league);
         public Task<List<MyLeagues>> GetMyLeagues(int user_id);
@@ -28,7 +28,7 @@ namespace NetClubApi.LeagueModule
             return leagueResponses;
         }
 
-        public async Task<int?> GetLeagueMatches(int league_id)
+        public async Task<int?> GetLeagueTeams(int league_id)
         {
             //get the number of teames in the given league
             int? NumberOfTeams = await _dataAccess.getLeagueTeams(league_id);
@@ -46,7 +46,7 @@ namespace NetClubApi.LeagueModule
                 leagueResponse.StartDate = league.start_date;
                 leagueResponse.EndDate = league.end_date;
                 leagueResponse.Teams = league.number_of_teams;
-                leagueResponse.Matches = await GetLeagueMatches(league.Id);
+                leagueResponse.Matches = await GetLeagueTeams(league.Id);
                 responses.Add(leagueResponse);
             }
             return responses;

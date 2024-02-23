@@ -1,4 +1,4 @@
-﻿using NetClubApi.MatchModule;
+﻿using NetClubApi.Modules.MatchModule;
 using NetClubApi.Model;
 
 namespace NetClubApi.Modules.TeamModule

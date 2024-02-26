@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using NetClubApi.Helper;
 using NetClubApi.Model;
 using NetClubApi.Model.ResponseModel;
 
@@ -11,7 +13,7 @@ namespace NetClubApi.Modules.LeagueModule
         public Task<string> CreateLeague(League league, int user_id);
         public Task<League> GetLeague(int league_id);
         public Task<List<League>> GetLeagues(int club_id);
-        Task<int?> getLeagueTeams(int league_id);
+        Task<List<TeamModel>> getLeagueTeams(int league_id);
         public Task<List<LeagueRegistration>> GetMyLeagues(int user_id);
         Task<int?> getNumberOfMatches(int league_id);
         public Task<bool> IsAdmin(int? club_id, int user_id);
@@ -62,10 +64,50 @@ namespace NetClubApi.Modules.LeagueModule
 
         }
 
-        public async Task<int?> getLeagueTeams(int league_id)
+        public async Task<List<TeamModel>> getLeagueTeams(int league_id)
         {
-            League league = await netClubDbContext.league.FirstOrDefaultAsync(league => league.Id == league_id);
-            return league.number_of_teams;
+            //League league = await netClubDbContext.league.FirstOrDefaultAsync(league => league.Id == league_id);
+            List<TeamModel> teams = new List<TeamModel>();
+            try
+            {
+                using (SqlConnection myCon = sqlHelper.GetConnection())
+                {
+                    myCon.Open();
+                    string sql2 = $@"select * from [dbo].[team] where league_id={league_id}";
+                    using (SqlCommand myCommand = new SqlCommand(sql2, myCon))
+                    {
+                        SqlDataReader reader = myCommand.ExecuteReader();
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                TeamModel team= new TeamModel
+                                {
+                                    team_id = (int)reader["team_id"],
+                                    club_id = (int)reader["club_id"],
+                                    league_id = (int)reader["league_id"],
+                                    team_name = (string)reader["team_name"],
+                                    court_id = (int)reader["court_id"],
+                                    points= (int)reader["points"],
+                                    rating = (int)reader["rating"],
+                                };
+                                teams.Add(team);
+                            }
+                        }
+                        else
+                        {
+                            reader.Close();
+                        }
+                        myCon.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+            return teams;
         }
 
         public async Task<int?> getNumberOfMatches(int league_id)
